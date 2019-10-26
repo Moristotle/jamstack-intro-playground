@@ -2,12 +2,18 @@ import React, { useReducer } from "react";
 
 import styles from "./form.module.css";
 
+const status = {
+	PENDING: "PENDING",
+	SUCCESS: "SUCCESS",
+	ERROR: "ERROR",
+	IDLE: "IDLE"
+};
 const INITIAL_STATE = {
 	name: "",
 	email: "",
 	subject: "",
 	body: "",
-	status: "IDLE"
+	status: status.IDLE
 };
 
 const reducer = (state, action) => {
@@ -36,15 +42,24 @@ const Form = () => {
 
 	const handleSubmitHandler = event => {
 		event.preventDefault();
-		setStatus("PENDING");
+		setStatus(status.PENDING);
 
-		//dispatch({ type: "reset" });
-
-		console.log(state);
-		setTimeout(() => setStatus("SUCCESS"), 1000);
+		fetch("/api/contact", {
+			method: "POST",
+			body: JSON.stringify(state)
+		})
+			.then(response => response.json())
+			.then(response => {
+				console.log("SUCCESS RESPONSE ::", response);
+				setStatus(status.SUCCESS);
+			})
+			.catch(error => {
+				console.error("ERROR RESPONSE ::", error);
+				setStatus(status.ERROR);
+			});
 	};
 
-	if (state.status === "SUCCESS") {
+	if (state.status === status.SUCCESS) {
 		return (
 			<p className={styles.success}>
 				Message sent!
@@ -60,11 +75,11 @@ const Form = () => {
 	}
 	return (
 		<>
-			{state.status === "ERROR" && (
+			{state.status === status.ERROR && (
 				<p className={styles.error}>Something went wrong. Please try again</p>
 			)}
 			<form
-				className={`${styles.form} ${state.status === "PENDING" &&
+				className={`${styles.form} ${state.status === status.PENDING &&
 					styles.pending}`}
 				onSubmit={handleSubmitHandler}
 			>
