@@ -8,7 +8,7 @@ exports.handler = (event, _context, callback) => {
 		domain: process.env.MAILGUN_DOMAIN
 	});
 
-	//debug issue related to sending email. All the information is succesfully passed, but both error & response remains undefined)
+	//TODO: debug issue related to sending email. All the information is succesfully passed, but both error & response remains undefined)
 
 	console.log("MG INSTANCE :: ", mg);
 
