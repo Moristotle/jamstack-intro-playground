@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 import { IdentityContextProvider } from "react-netlify-identity-widget";
 
 import "./layout.css";
+//TODO:refactor to use CSS modules instead of stylesheet.
 
 const Layout = ({ children }) => (
 	<IdentityContextProvider url="https://moristotle-cave-auth.netlify.com">
