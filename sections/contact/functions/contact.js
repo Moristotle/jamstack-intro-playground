@@ -14,8 +14,6 @@ exports.handler = (event, _context, callback) => {
 
 	const data = JSON.parse(event.body);
 
-	console.log("data :: ", data);
-
 	const email = {
 		from: "Excited User <me@samples.mailgun.org>",
 		to: `${data.name} <${data.email}>`,
@@ -23,9 +21,8 @@ exports.handler = (event, _context, callback) => {
 		text: data.body
 	};
 
-	console.log("email ::", email);
-
 	mg.messages().send(email, (error, response) => {
+		console.log("email ::", email);
 		console.log("ERROR :: ", error);
 		console.log("RESPONSE :: ", response);
 		callback(error, {
